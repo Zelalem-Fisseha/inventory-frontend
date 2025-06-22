@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Login View -->
+        <div id="loginView" class="view auth-view">
+            <div class="auth-container">
+                <div class="auth-logo">
+                    <i class="fas fa-boxes"></i>
+                    <h1>Inventory Pro</h1>
+                    <p>Manage your inventory with ease</p>
+                </div>
+                
+                <form id="loginForm" class="auth-form">
+                    <div class="form-header">
+                        <h2>Welcome Back</h2>
+                        <p>Please sign in to continue</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" id="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" id="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="#" id="showSignup">Create account</a></p>
+                    </div>
+                </form>
+                
+                <div class="auth-alert" id="loginAlert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="alertMessage">Invalid username or password</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup View -->
+        <div id="signupView" class="view auth-view" style="display: none;">
+            <div class="auth-container">
+                <div class="auth-logo">
+                    <h2>Create an Account</h2>
+                    <p class="auth-subtitle">Create your account to get started</p>
+                    
+                    <div id="signupAlert" class="alert" style="display: none;">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="signupAlertMessage">Error message goes here</span>
+                    </div>
+                    
+                    <form id="signupForm" class="auth-form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="usernameSignup" placeholder="Choose a Username" required>
+                            </div>
+                            <div id="usernameSignupError" class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="passwordSignup" placeholder="Create a Password" required>
+                                <button type="button" class="toggle-password" data-target="passwordSignup">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div id="passwordSignupError" class="error-message"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                        
+                        <p class="auth-footer">
+                            Already have an account? <a href="#" id="showLogin">Sign in</a>
+                        </p>
+                    </form>
+                </div>
+                <div class="auth-alert" id="signupAlert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="signupAlertMessage">Error creating account</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboardView" class="view" style="display: none;">
+            <header class="header">
+                <div class="header-content">
+                    <h1>Inventory System</h1>
+                    <button id="logoutBtn" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="container">
+                    <div class="dashboard-header">
+                        <h2>Product Inventory</h2>
+                        <div class="header-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Search products...">
+                            </div>
+                            <button id="addProductBtn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Product
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="product-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Description</th>
+                                        <th>Original Price</th>
+                                        <th>Quantity</th>
+                                        <th>Delivery Fee</th>
+                                        <th>Target Margin</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productTableBody">
+                                    <!-- Products will be loaded here dynamically -->
+                                    <tr>
+                                        <td colspan="6" class="text-center">Loading products...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-footer">
+                            <div class="table-info">
+                                Showing <span id="showingCount">0</span> of <span id="totalCount">0</span> products
+                            </div>
+                            <div class="pagination">
+                                <button id="prevPage" class="btn btn-sm" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span id="pageInfo">Page 1</span>
+                                <button id="nextPage" class="btn btn-sm" disabled>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+</div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Add New Product</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="originalPrice">Original Price</label>
+                        <input type="number" id="originalPrice" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" min="0" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deliveryFee">Delivery Fee</label>
+                        <input type="number" id="deliveryFee" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="targetMargin">Target Margin (%)</label>
+                        <input type="number" id="targetMargin" min="0" max="100" value="20" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
